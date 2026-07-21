@@ -61,6 +61,14 @@ The installer opens at `http://localhost:20080`. Complete only the local Appwrit
 
 Use `npm run stack:down` to stop the stack. Do not use volume-removing commands if you need to preserve local data.
 
+To test the real agent-to-Appwrite flow, leave the stack running and start the MCP bridge in a second terminal:
+
+```powershell
+npm run stack:mcp
+```
+
+Then configure or trust the repository in an MCP-capable coding agent and call the VibeBase tools. The agent token is passed to the tool call; Appwrite server keys remain in `.env.local-stack` and are never shared with the agent.
+
 ## REST and MCP
 
 REST is the universal interface. MCP provides typed tools for compatible coding agents. Both routes use the same VibeBase service layer.
