@@ -14,6 +14,12 @@ VibeBase is a local-first control plane for coding agents. A founder signs in, r
 
 This repository is a V1 control-plane foundation. It is not yet a full Appwrite or Supabase feature replacement.
 
+## How Codex and GPT-5.6 were used
+
+Codex was used as the coding agent to inspect the repository, implement the REST and MCP interfaces, connect the Docker services, debug the local Appwrite workflow, and run the verification suite.
+
+GPT-5.6 was used to design the service boundaries, security model, scoped-token flow, MCP contracts, confirmation rules, audit behavior, and the incremental implementation plan. The final implementation keeps provider credentials server-side and gives the agent only the scoped VibeBase token.
+
 ## Requirements
 
 - Docker Desktop with the Linux engine enabled.
