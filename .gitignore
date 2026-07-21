@@ -1,0 +1,8 @@
+node_modules
+.next
+tsconfig.tsbuildinfo
+.env
+.env.local-stack
+*.log
+infra/appwrite/appwrite
+infra/appwrite/appwrite/

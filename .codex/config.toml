@@ -1,0 +1,10 @@
+# Project-local Codex configuration for the VibeBase demo.
+# Codex loads this file after the judge trusts the cloned repository.
+
+[mcp_servers.vibebase]
+enabled = true
+command = "node"
+args = ["scripts/local-mcp.mjs"]
+cwd = ".."
+startup_timeout_sec = 30
+tool_timeout_sec = 60

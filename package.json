@@ -1,0 +1,41 @@
+{
+  "name": "vibebase",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "infra:init": "node scripts/bootstrap-local.mjs",
+    "infra:up": "docker compose up --build -d",
+    "infra:down": "docker compose down",
+    "appwrite:init": "node scripts/appwrite-init.mjs",
+    "stack:init": "node scripts/stack-init.mjs",
+    "stack:up": "node scripts/stack-up.mjs",
+    "stack:down": "node scripts/stack-down.mjs",
+    "stack:mcp": "node --import tsx scripts/stack-mcp.mjs",
+    "local:up": "node scripts/local-up.mjs",
+    "local:down": "node scripts/local-down.mjs",
+    "local:mcp": "node --import tsx scripts/local-mcp.mjs",
+    "local:verify": "node scripts/local-verify.mjs",
+    "mcp": "set ESBUILD_WORKER_THREADS=0&& node --import tsx mcp-server/index.ts",
+    "test": "set ESBUILD_WORKER_THREADS=0&& node --import tsx --test tests/vibebase-service.test.ts tests/mcp-runtime.test.ts tests/demo-flow.test.ts tests/security-hardening.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@types/pg": "^8.20.0",
+    "next": "16.2.10",
+    "pg": "^8.22.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.16.5",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "tsx": "^4.20.5",
+    "typescript": "^5.8.3"
+  }
+}

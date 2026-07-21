@@ -1,0 +1,70 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: vibebase-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-vibebase}
+      POSTGRES_USER: ${POSTGRES_USER:-vibebase}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - vibebase_postgres:/var/lib/postgresql/data
+      - ./infra/postgres/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    container_name: vibebase-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:?Set REDIS_PASSWORD in .env}"]
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?Set REDIS_PASSWORD in .env}
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - vibebase_redis:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a $$REDIS_PASSWORD ping | grep PONG"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  vibebase:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vibebase-web
+    restart: unless-stopped
+    env_file: ${VIBEBASE_ENV_FILE:-.env}
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-vibebase}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-vibebase}
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      VIBEBASE_MCP_BRIDGE_MODE: "true"
+      APPWRITE_ENDPOINT: ${APPWRITE_ENDPOINT:-http://host.docker.internal/v1}
+      APPWRITE_INTERNAL_ENDPOINT: http://appwrite/v1
+      DOKPLOY_ENDPOINT: ${DOKPLOY_ENDPOINT:-http://host.docker.internal:3000/api}
+    ports:
+      - "${VIBEBASE_PORT:-3000}:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - default
+      - appwrite
+
+volumes:
+  vibebase_postgres:
+  vibebase_redis:
+
+networks:
+  appwrite:
+    external: true
+    name: appwrite

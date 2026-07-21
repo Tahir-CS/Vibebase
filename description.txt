@@ -1,0 +1,86 @@
+# Project Specification: VibeBase
+
+### The World's First Agent-Native Backend-as-a-Service (Agent-BaaS)
+
+**VibeBase** is a headless, zero-dashboard backend designed specifically for the era of **vibe coding**. Instead of forcing developers to leave their code editors to click through complex visual control rooms, VibeBase exposes a fully programmable API and a native **Model Context Protocol (MCP)** server. This allows AI coding agents (like `claude-code`, Cursor, or Windsurf) to fully configure database schemas, authentication, storage, background workers, and payment gateways directly from the local terminal.
+
+---
+
+## 1. The Core Architecture
+
+VibeBase completely eliminates manual cloud configuration. It acts as the "infrastructure translator" between your local AI agent and production-ready cloud services.
+
+```
+ [ Local Codebase ] ──── (Writes code & schemas local-first)
+        │
+        ▼
+ [ AI Coding Agent ] ─── (Uses VibeBase MCP Tools)
+        │
+        ▼
+ [ VibeBase Engine ] ─── (Automates Cloud Orchestration)
+        ├── DB Branching & Migrations (Postgres)
+        ├── Global Auth (Google, GitHub, Magic Links)
+        ├── Unified Billing (Stripe Connect - Zero Keys)
+        └── AI-Ready CDN & File Storage
+
+```
+
+---
+
+## 2. Key Features
+
+### 🛠️ Agent-Native Controls (Built-in MCP Server)
+
+Instead of forcing the AI to write fragile API wrappers, VibeBase provides a native Model Context Protocol (MCP) server. Your local AI agent instantly inherits tools like `vibebase/create_table`, `vibebase/enable_auth`, or `vibebase/get_logs` to handle backend configuration autonomously.
+
+### 💳 Zero-Config Payments (Powered by Stripe Connect)
+
+The developer links their bank info once via a single Stripe Connect link during onboarding.
+
+* **The Agent Advantage:** The local AI agent can write a single line of code to trigger a checkout: `VibeBase.payments.createCheckout({ amount: 1000 })`.
+* VibeBase automatically provisions the product, sets up the pricing, secures the webhook, and updates the database row when paid. **Zero Stripe API keys touch your local codebase.**
+
+### 🔐 No-Console Authentication
+
+Instead of setting up OAuth clients, redirect URIs, and SMTP servers for transactional emails, VibeBase serves as the global auth broker. Your agent requests `"Enable GitHub login"` and the platform handles the configuration, returning clean frontend code ready to paste.
+
+### 🗄️ Database Sandboxing & Self-Healing Schemas
+
+Every time your AI agent works on a local branch, VibeBase spins up an isolated, temporary cloud database replica. The agent can test radical schema migrations safely. If a migration breaks the frontend, VibeBase's built-in headless testing suite catches the error, allowing the agent to self-heal the code before merging.
+
+### ⚡ Vibe-Queues (Background AI Workers)
+
+No more setting up serverless queues, Cron jobs, or third-party automation tools. Developers can declare background workflows in plain language:
+
+```typescript
+VibeBase.on('user.created', 'Research their company domain and draft a personalized intro email.');
+
+```
+
+---
+
+## 3. How It Compares
+
+| Feature | Traditional BaaS (Supabase/Firebase) | The VibeBase Way (Agent-BaaS) |
+| --- | --- | --- |
+| **Control Interface** | 🖥️ Heavy GUI Dashboard / Visual Console | 🤖 Headless API / Local AI Agent Terminal |
+| **Stripe Setup** | Manual webhooks, products, and API keys | Automatic via Stripe Connect |
+| **Auth Setup** | Manual SMTP config, OAuth credentials | Fully managed, instant generation |
+| **Migrations** | Manual CLI scripts & schema sync | Agent-controlled, self-healing sandboxes |
+| **File Storage** | Standard S3 bucket configuration | CDN with built-in AI vector embedding |
+
+---
+
+## 4. The Developer Workflow
+
+With VibeBase, starting a new project and taking it to production with payments takes **under two minutes**:
+
+1. **Initialize:** Run `npx vibebase init` to authenticate.
+2. **Onboard Payments:** Click a single Stripe Link in the terminal to set up payouts.
+3. **Prompt the Agent:**
+> *"Add a premium user dashboard. Set up a PostgreSQL table for storing user documents, secure the routes with Google login, and restrict access to users on a $15/month subscription."*
+
+
+4. **Vibe:** Watch your AI agent talk to the VibeBase API, configure the database, handle the checkout flows, and write the UI.
+
+**VibeBase is the ultimate backend for developers who want to write software at the speed of thought, leaving the infrastructure plumbing entirely to AI.**

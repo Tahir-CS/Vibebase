@@ -1,0 +1,12 @@
+services:
+  vibebase-local:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vibebase-local
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      VIBEBASE_LOCAL_DEMO_MODE: "true"
+    ports:
+      - "${VIBEBASE_PORT:-3000}:3000"
